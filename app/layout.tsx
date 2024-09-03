@@ -20,7 +20,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Background />
-        {children}
+        <div className="min-h-screen relative">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-2xl bg-gray-50 rounded-xl w-1/4 h-2/4 z-10">
+            {/* <TaskList /> */}
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
