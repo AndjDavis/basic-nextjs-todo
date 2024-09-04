@@ -5,6 +5,11 @@ export interface ITask {
   completed: boolean;
 };
 
+export interface ICardProps {
+  task: ITask;
+  key: React.Key;
+};
+
 export type State = {
   errors?: {
     title?: string[];
@@ -15,4 +20,4 @@ export type State = {
 
 export type JsonHeader = {
   "Content-Type": "application/json";
-}
+};

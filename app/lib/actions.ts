@@ -19,15 +19,14 @@ const FormSchema = z.object({
   completed: z.boolean(),
 });
 
-
-const CreateTaskSchema = FormSchema.omit({ id: true, completed: true });
+const TaskSchema = FormSchema.omit({ id: true, completed: true });
 
 
 export async function createTask(
   prevState: State, 
   formData: FormData
 ) {
-  const validatedFields = CreateTaskSchema.safeParse({
+  const validatedFields = TaskSchema.safeParse({
     body: formData.get("body"),
     title: formData.get("title"),
   });
@@ -49,6 +48,37 @@ export async function createTask(
       message: "Database Error: Failed to create new task.",
     };
   };
+
+  revalidatePath("/");
+  redirect("/");
+};
+
+
+export async function editTask(
+  taskId: string, 
+  state: State, 
+  formData: FormData
+) {
+  const validatedFields = TaskSchema.safeParse({
+    title: formData.get("title"),
+    body: formData.get("body")
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing fields: Failed to update invoice."
+    };
+  }
+
+  try {
+    await fetcher.put(taskId, validatedFields.data);
+  } catch (error) {
+    console.error("Database Error: Failed to update task.", error);
+    return {
+      message: "Database Error: Failed to update task.",
+    };
+  }
 
   revalidatePath("/");
   redirect("/");

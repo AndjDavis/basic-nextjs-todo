@@ -7,7 +7,6 @@ export default function Page() {
         <h2 className="flex justify-center items-center h-1/6 font-bold text-2xl md:text-2xl">
           Create a new Task
         </h2>
-
         <AddTaskForm />
       </div>
     </main>
