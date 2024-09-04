@@ -21,3 +21,7 @@ export type State = {
 export type JsonHeader = {
   "Content-Type": "application/json";
 };
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+};

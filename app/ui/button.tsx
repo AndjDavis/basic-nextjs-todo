@@ -1,11 +1,16 @@
+import Link from "next/link";
 import clsx from "clsx";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-};
+import { ButtonProps } from "@/app/lib/definitions";
 
-export default function Button(
-  { children, className, ...rest }: ButtonProps) {
+
+export function Button(
+  {
+    children,
+    className,
+    ...rest
+  }: ButtonProps
+) {
   return (
     <button
       {...rest}
@@ -16,5 +21,30 @@ export default function Button(
     >
       {children}
     </button>
+  );
+};
+
+
+export function LinkButton(
+  {
+    children,
+    href,
+    className,
+  }: {
+    children: React.ReactNode,
+    href: string,
+    className?: string,
+  }
+) {
+  return (
+    <Link
+      href={href}
+      className={clsx(
+        "flex items-center font-medium aria-disabled:cursor-not-allowed aria-disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+        className,
+      )}
+    >
+      {children}
+    </Link>
   );
 };

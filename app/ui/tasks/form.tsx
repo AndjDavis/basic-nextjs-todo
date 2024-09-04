@@ -1,25 +1,31 @@
 "use client";
 
 import { useActionState } from "react";
-import Link from "next/link";
 
-import Button from "@/app/ui/button";
+import { Button, LinkButton } from "@/app/ui/button";
 import { FormError } from "@/app/ui/form-error";
-import { createTask } from "@/app/lib/actions";
-import { State } from "@/app/lib/definitions";
+import { createTask, editTask } from "@/app/lib/actions";
+import { ITask, State } from "@/app/lib/definitions";
 import { titleError, bodyError } from "@/app/lib/constants";
 
 
-export default function AddTaskForm() {
+export default function TaskForm({ task }: { task?: ITask }) {
+  let action = createTask;
+  let submitText = "Create";
+  if (task?.id) {
+    action = editTask.bind(null, task.id);
+    submitText = "Save Changes";
+  }
+
   const initialState: State = {
     message: null,
     errors: {},
   };
+  const [state, formAction] = useActionState(action, initialState);
 
-  const [state, formAction] = useActionState(createTask, initialState);
   return (
-    <form action={formAction}>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+    <form action={formAction} className="grow flex flex-col justify-evenly">
+      <div className="rounded-md bg-gray-50 p-4">
         <div className="mb-4">
           <label
             className="mb-2 block text-sm font-medium"
@@ -34,6 +40,7 @@ export default function AddTaskForm() {
                 id="title"
                 name="title"
                 placeholder="Task Title"
+                defaultValue={task?.title || ""}
                 type="text"
                 aria-describedby={titleError}
               />
@@ -56,6 +63,7 @@ export default function AddTaskForm() {
                 id="body"
                 name="body"
                 placeholder="Task Description"
+                defaultValue={task?.body || ""}
                 type="text"
                 aria-describedby={bodyError}
               />
@@ -64,15 +72,15 @@ export default function AddTaskForm() {
         </div>
         <FormError state={state} errorType={bodyError} />
       </div>
-      <div className="mt-6 flex justify-end gap-4">
-        <Link
+      <div className="flex justify-center gap-6">
+        <LinkButton
           href="/"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          className="h-10 rounded-lg bg-gray-100 px-4 text-sm text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
-        </Link>
-        <Button type="submit">Save Task</Button>
+        </LinkButton>
+        <Button type="submit">{submitText}</Button>
       </div>
     </form>
-  )
+  );
 };
