@@ -1,5 +1,5 @@
 import AddTask from "@/app/ui/tasks/add-task";
-import { Card } from "@/app/ui/card";
+import { Card } from "@/app/ui/tasks/card";
 import { ITask } from "@/app/lib/definitions";
 import { fetcher } from "@/app/lib/data";
 

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 
+import { deleteTask } from "@/app/lib/actions";
+
 
 export function EditTaskButton ({ id }: { id: string }) {
   return (
@@ -13,14 +15,15 @@ export function EditTaskButton ({ id }: { id: string }) {
   );
 };
 
-// TODO: Add functionality.
-export function DeleteTaskButton({ id }: { id: string }) {
+
+export async function DeleteTaskButton({ id }: { id: string }) {
+  const deleteTaskWithId = deleteTask.bind(null, id);
+
   return (
-    <Link
-      href={`/tasks/${id}/delete`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <TrashIcon className="w-5" />
-    </Link>
+    <form action={deleteTaskWithId}>
+      <button className="rounded border p-2 hover:bg-gray-100">
+        <TrashIcon className="w-5" />
+      </button>
+    </form>
   );
 };

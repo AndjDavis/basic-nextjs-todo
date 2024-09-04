@@ -83,3 +83,18 @@ export async function editTask(
   revalidatePath("/");
   redirect("/");
 };
+
+
+export async function deleteTask(id: string) {
+  try {
+    fetcher.delete(id);
+    revalidatePath("/");
+    return {
+      message: "Deleted Task."
+    };
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to delete task."
+    };
+  };
+};
