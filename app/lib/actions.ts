@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { z }from "zod";
+import { z } from "zod";
 
 import { State } from "@/app/lib/definitions";
 
@@ -10,15 +10,16 @@ import { State } from "@/app/lib/definitions";
 const FormSchema = z.object({
   id: z.string(),
   body: z.string({
-    invalid_type_error: "Please add a description",
-  }),
+    invalid_type_error: "Please provide a valid description.",
+  }).min(1, "A task description is required.").trim(),
   title: z.string({
-    invalid_type_error: "Please add a title"
-  }),
+    invalid_type_error: "Please provide a valid title."
+  }).min(1, "A task title is required.").trim(),
+  completed: z.boolean(),
 });
 
 
-const CreateTaskSchema = FormSchema.omit({ id: true });
+const CreateTaskSchema = FormSchema.omit({ id: true, completed: true });
 
 
 export async function createTask(
@@ -38,16 +39,13 @@ export async function createTask(
   }
 
   try {
-    await fetch(
-      `${process.env.BASE_URL}/tasks`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(validatedFields.data)
-      }
-    );
+    await fetch(`${process.env.BASE_URL}/tasks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
   } catch (error) {
     console.error("Database Error: Failed to create new task", error);
     return {
