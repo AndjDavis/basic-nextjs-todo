@@ -12,3 +12,7 @@ export type State = {
   };
   message?: string | null;
 };
+
+export type JsonHeader = {
+  "Content-Type": "application/json";
+}

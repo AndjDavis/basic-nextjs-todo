@@ -1,11 +1,10 @@
 import AddTask from "@/app/ui/tasks/add-task";
-import Button from "@/app/ui/button"
 import { Card } from "@/app/ui/card";
-import { fetchAllTasks } from "@/app/lib/data";
 import { ITask } from "@/app/lib/definitions";
+import { fetcher } from "@/app/lib/data";
 
 export default async function TaskList() {
-  const tasks: ITask[] = await fetchAllTasks();
+  const tasks: ITask[] = await fetcher.get();
 
   return (
     <div className="flex flex-col justify-start w-full h-full rounded-xl">

@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { z } from "zod";
 
 import { State } from "@/app/lib/definitions";
+import { fetcher } from "@/app/lib/data";
 
 
 const FormSchema = z.object({
@@ -39,13 +40,9 @@ export async function createTask(
   }
 
   try {
-    await fetch(`${process.env.BASE_URL}/tasks`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(validatedFields.data),
-    });
+    await fetcher.post(
+      validatedFields.data
+    );
   } catch (error) {
     console.error("Database Error: Failed to create new task", error);
     return {
