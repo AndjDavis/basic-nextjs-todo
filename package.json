@@ -10,6 +10,7 @@
     "db": "npx json-server data/data.json --watch --port 3001"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "@tailwindcss/forms": "^0.5.8",
     "clsx": "^2.1.1",
     "next": "14.3.0-canary.87",
